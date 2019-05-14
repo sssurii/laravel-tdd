@@ -5,8 +5,10 @@ namespace App\Components;
 class CustomQueryBuilder
 {
 
-    public function select($table):string
+    public function select($table, $columns = null):string
     {
-        return 'select * from '. $table;
+        $columns = $columns ?? '*';
+        $columns = is_array($columns) ? implode(', ', $columns) : $columns;
+        return 'select '. $columns .' from '. $table;
     }
 }
