@@ -24,4 +24,10 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('select id, name from products', $sql->select('products', ['id', 'name']));
     }
+
+    public function testSelectSpecificColumnsWithOrderByQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select id, name from products order by id desc', $sql->select('products', ['id', 'name'], ['id', 'desc']));
+    }
 }
