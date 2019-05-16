@@ -55,4 +55,10 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('select * from products limit 6 offset 5', $sql->select('products', [6, 5]));
     }
+
+    public function testSelectCountQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select count("id") from products', $sql->select('products', ['count','id']));
+    }
 }

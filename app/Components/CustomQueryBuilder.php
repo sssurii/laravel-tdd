@@ -14,6 +14,8 @@ class CustomQueryBuilder
 
     private $capital_keywords = false;
 
+    private $aggregate_functions = ['count'];
+
     public function select($table, $columns = null, $order = null):string
     {
         $this->setOrder($order);
@@ -42,6 +44,9 @@ class CustomQueryBuilder
                 if(is_integer($value)) {
                     $this->setLimitOffset($columns);
                     return $this->columns = '*';
+                }
+                if(in_array($value, $this->aggregate_functions, true)) {
+                    return $this->columns = $this->setAggregateFunctions($columns);
                 }
                 if(is_array($value)) {
                     $this->setOrder($columns);
@@ -111,6 +116,11 @@ class CustomQueryBuilder
     {
         $this->setLimit($limit_offset[0]);
         $this->setOffset($limit_offset[1]);
+    }
+
+    private function setAggregateFunctions($function)
+    {
+        return $function[0]. '("'.$function[1].'")';
     }
 
 }
