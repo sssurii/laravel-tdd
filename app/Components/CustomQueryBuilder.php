@@ -41,6 +41,10 @@ class CustomQueryBuilder
         $columns = $columns ?? '*';
         if(is_array($columns)) {
             foreach ($columns as $value) {
+                if(is_array($value)) {
+                    $this->setOrder($columns);
+                    return $this->columns = '*';
+                }
                 if(is_integer($value)) {
                     $this->setLimitOffset($columns);
                     return $this->columns = '*';
@@ -48,9 +52,8 @@ class CustomQueryBuilder
                 if(in_array($value, $this->aggregate_functions, true)) {
                     return $this->columns = $this->setAggregateFunctions($columns);
                 }
-                if(is_array($value)) {
-                    $this->setOrder($columns);
-                    return $this->columns = '*';
+                if($value == 'DISTINCT') {
+                    return $this->columns = $value .' '. $columns[1];
                 }
             }
             return $this->columns = implode(', ', $columns);
