@@ -80,4 +80,11 @@ class QueryBuilderTest extends ParentTestClass
         $this->assertEquals('select * from products join categories on products.category_id=categories.id',
                             $sql->select('products', 'categories', ['id', 'category_id']));
     }
+
+    public function testInsertWithSecificColumns()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('INSERT INTO products("id", "name", "cost", "color") VALUES(1, "apple", 100, "red")',
+                            $sql->insert('products', ["id","name","cost","color"], [1, "apple", 100, "red"]));
+    }
 }

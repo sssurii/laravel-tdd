@@ -112,10 +112,13 @@ class CustomQueryBuilder
             'from' =>'FROM',
             'order by' => 'ORDER BY',
             'limit' => 'LIMIT',
-            'offset' => 'OFFSET'
+            'offset' => 'OFFSET',
+            'insert into' => 'INSERT INTO',
+            'values' => 'VALUES'
         ];
         if($this->capital_keywords) {
             foreach ($capital_keywords as $small => $capital) {
+                print_r($small);
                $query = str_replace($small, $capital, $query);
             }
         }
@@ -152,6 +155,30 @@ class CustomQueryBuilder
     {
         $columns = explode(' ', $columns);
         return $this->joins = $join.' on '.$table . '.'. $columns[1] .'='.$join.'.'.$columns[0];
+    }
+
+
+    public function insert($table, $columns, $values)
+    {
+        $this->setTable($table);
+
+        $query = 'insert into '.$this->table.'("'.implode('", "', $columns).'") values('
+        . $this->getInsertValuesString($values) .')';
+        $this->capital_keywords = true;
+        return $this->checkForCapitalKeywords($query);
+    }
+
+    public function getInsertValuesString($values)
+    {
+        $values_str = '';
+            foreach ($values as $value) {
+                if(is_integer($value)) {
+                    $values_str .= $value.', ';
+                    continue;
+                }
+                $values_str .= '"'.$value.'", ';
+            }
+        return rtrim($values_str, ', ');
     }
 
 }
