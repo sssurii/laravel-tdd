@@ -49,4 +49,10 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('select * from products limit 10', $sql->select('products', 10));
     }
+
+    public function testSelectWithLimitAndOffesetQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select * from products limit 6 offset 5', $sql->select('products', [6, 5]));
+    }
 }

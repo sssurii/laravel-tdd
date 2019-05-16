@@ -10,6 +10,8 @@ class CustomQueryBuilder
 
     private $limit;
 
+    private $offset;
+
     private $capital_keywords = false;
 
     public function select($table, $columns = null, $order = null):string
@@ -25,6 +27,10 @@ class CustomQueryBuilder
             $query .= ' limit '. $this->limit;
         }
 
+        if(!empty($this->offset)) {
+            $query .= ' offset '. $this->offset;
+        }
+
         return $this->checkForCapitalKeywords($query);
     }
 
@@ -33,6 +39,10 @@ class CustomQueryBuilder
         $columns = $columns ?? '*';
         if(is_array($columns)) {
             foreach ($columns as $value) {
+                if(is_integer($value)) {
+                    $this->setLimitOffset($columns);
+                    return $this->columns = '*';
+                }
                 if(is_array($value)) {
                     $this->setOrder($columns);
                     return $this->columns = '*';
@@ -75,7 +85,9 @@ class CustomQueryBuilder
         $capital_keywords = [
             'select' => 'SELECT',
             'from' =>'FROM',
-            'order by' => 'ORDER BY'
+            'order by' => 'ORDER BY',
+            'limit' => 'LIMIT',
+            'offset' => 'OFFSET'
         ];
         if($this->capital_keywords) {
             foreach ($capital_keywords as $small => $capital) {
@@ -88,6 +100,17 @@ class CustomQueryBuilder
     private function setLimit($limit)
     {
         $this->limit = $limit;
+    }
+
+    private function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
+
+    private function setLimitOffset($limit_offset)
+    {
+        $this->setLimit($limit_offset[0]);
+        $this->setOffset($limit_offset[1]);
     }
 
 }
