@@ -14,7 +14,7 @@ class CustomQueryBuilder
 
     private $capital_keywords = false;
 
-    private $aggregate_functions = ['count'];
+    private $aggregate_functions = ['count', 'max'];
 
     public function select($table, $columns = null, $order = null):string
     {

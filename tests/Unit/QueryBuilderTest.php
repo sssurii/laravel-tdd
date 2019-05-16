@@ -61,4 +61,10 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('select count("id") from products', $sql->select('products', ['count','id']));
     }
+
+    public function testSelectMaxQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select max("cost") from products', $sql->select('products', ['max','cost']));
+    }
 }
