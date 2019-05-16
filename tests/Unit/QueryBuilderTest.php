@@ -43,4 +43,10 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('SELECT id, name FROM products ORDER BY id DESC', $sql->select('products', ['id', 'name'], ['id', 'DESC']));
     }
+
+    public function testSelectWithLimitQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select * from products limit 10', $sql->select('products', 10));
+    }
 }

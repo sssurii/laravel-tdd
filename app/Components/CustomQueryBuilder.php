@@ -8,6 +8,8 @@ class CustomQueryBuilder
 
     private $order;
 
+    private $limit;
+
     private $capital_keywords = false;
 
     public function select($table, $columns = null, $order = null):string
@@ -17,6 +19,10 @@ class CustomQueryBuilder
         $query =  'select '. $this->columns .' from '. $table;
         if(!empty($this->order)) {
             $query .= ' order by '. $this->order;
+        }
+
+        if(!empty($this->limit)) {
+            $query .= ' limit '. $this->limit;
         }
 
         return $this->checkForCapitalKeywords($query);
@@ -33,6 +39,11 @@ class CustomQueryBuilder
                 }
             }
             return $this->columns = implode(', ', $columns);
+        }
+
+        if(is_integer($columns)) {
+            $this->setLimit($columns);
+            return $this->columns = '*';
         }
         return $this->columns = $columns;
     }
@@ -72,6 +83,11 @@ class CustomQueryBuilder
             }
         }
         return $query;
+    }
+
+    private function setLimit($limit)
+    {
+        $this->limit = $limit;
     }
 
 }
