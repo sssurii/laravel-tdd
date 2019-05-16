@@ -4,6 +4,8 @@ namespace App\Components;
 
 class CustomQueryBuilder
 {
+    private $table;
+
     private $columns;
 
     private $order;
@@ -16,11 +18,14 @@ class CustomQueryBuilder
 
     private $aggregate_functions = ['count', 'max'];
 
+    private $joins;
+
     public function select($table, $columns = null, $order = null):string
     {
+        $this->setTable($table);
         $this->setOrder($order);
         $this->setColumns($columns);
-        $query =  'select '. $this->columns .' from '. $table;
+        $query =  'select '. $this->columns .' from '. $this->table;
         if(!empty($this->order)) {
             $query .= ' order by '. $this->order;
         }
@@ -31,6 +36,10 @@ class CustomQueryBuilder
 
         if(!empty($this->offset)) {
             $query .= ' offset '. $this->offset;
+        }
+
+        if(!empty($this->joins)) {
+            $query .= ' join '. $this->joins;
         }
 
         return $this->checkForCapitalKeywords($query);
@@ -63,6 +72,13 @@ class CustomQueryBuilder
             $this->setLimit($columns);
             return $this->columns = '*';
         }
+
+        if($columns == 'categories') {
+            $this->setJoins($this->table, $columns, $this->order);
+            $this->order = null;
+            return $this->columns = '*';
+        }
+
         return $this->columns = $columns;
     }
 
@@ -83,6 +99,7 @@ class CustomQueryBuilder
                         $this->capital_keywords = true;
                 }
             }
+
             return $this->order = $multi_order ? implode(', ', $order) : implode(' ', $order);
         }
         return $this->order = $order;
@@ -105,6 +122,11 @@ class CustomQueryBuilder
         return $query;
     }
 
+    private function setTable($table)
+    {
+        $this->table = $table;
+    }
+
     private function setLimit($limit)
     {
         $this->limit = $limit;
@@ -124,6 +146,12 @@ class CustomQueryBuilder
     private function setAggregateFunctions($function)
     {
         return $function[0]. '("'.$function[1].'")';
+    }
+
+    private function setJoins($table, $join, $columns)
+    {
+        $columns = explode(' ', $columns);
+        return $this->joins = $join.' on '.$table . '.'. $columns[1] .'='.$join.'.'.$columns[0];
     }
 
 }

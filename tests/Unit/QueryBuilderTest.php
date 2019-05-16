@@ -73,4 +73,11 @@ class QueryBuilderTest extends ParentTestClass
         $sql = new CustomQueryBuilder();
         $this->assertEquals('select DISTINCT name from products', $sql->select('products', ['DISTINCT','name']));
     }
+
+    public function testSelectWithJoinOtherTables()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('select * from products join categories on products.category_id=categories.id',
+                            $sql->select('products', 'categories', ['id', 'category_id']));
+    }
 }
