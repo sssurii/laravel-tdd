@@ -37,4 +37,10 @@ class QueryBuilderTest extends ParentTestClass
         $this->assertEquals('select * from products order by name asc, category asc',
                             $sql->select('products', [['name', 'asc'],['category','asc']]));
     }
+
+    public function testSelectSpecificColumnsOrderByCapitalKeywordsQuery()
+    {
+        $sql = new CustomQueryBuilder();
+        $this->assertEquals('SELECT id, name FROM products ORDER BY id DESC', $sql->select('products', ['id', 'name'], ['id', 'DESC']));
+    }
 }

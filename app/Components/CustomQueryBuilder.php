@@ -8,6 +8,8 @@ class CustomQueryBuilder
 
     private $order;
 
+    private $capital_keywords = false;
+
     public function select($table, $columns = null, $order = null):string
     {
         $this->setOrder($order);
@@ -17,7 +19,7 @@ class CustomQueryBuilder
             $query .= ' order by '. $this->order;
         }
 
-        return $query;
+        return $this->checkForCapitalKeywords($query);
     }
 
     private function setColumns($columns)
@@ -44,10 +46,32 @@ class CustomQueryBuilder
                 if(is_array($value)) {
                     $multi_order = true;
                     $order[$key] = implode(' ', $value);
+                    if(array_search("DESC", $value, true) || array_search("ASC", $value, true)) {
+                        $this->capital_keywords = true;
+                    }
+                }
+                if(in_array($value, ['DESC', 'ASC'], true)) {
+                        $this->capital_keywords = true;
                 }
             }
             return $this->order = $multi_order ? implode(', ', $order) : implode(' ', $order);
         }
         return $this->order = $order;
     }
+
+    private function checkForCapitalKeywords($query)
+    {
+        $capital_keywords = [
+            'select' => 'SELECT',
+            'from' =>'FROM',
+            'order by' => 'ORDER BY'
+        ];
+        if($this->capital_keywords) {
+            foreach ($capital_keywords as $small => $capital) {
+               $query = str_replace($small, $capital, $query);
+            }
+        }
+        return $query;
+    }
+
 }
