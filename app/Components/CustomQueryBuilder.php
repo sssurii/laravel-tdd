@@ -118,7 +118,6 @@ class CustomQueryBuilder
         ];
         if($this->capital_keywords) {
             foreach ($capital_keywords as $small => $capital) {
-                print_r($small);
                $query = str_replace($small, $capital, $query);
             }
         }
@@ -162,23 +161,29 @@ class CustomQueryBuilder
     {
         $this->setTable($table);
 
-        $query = 'insert into '.$this->table.'("'.implode('", "', $columns).'") values('
-        . $this->getInsertValuesString($values) .')';
+        $query = 'insert into '.$this->table.'("'.implode('", "', $columns).'") values'
+        . $this->getInsertValuesString($values);
         $this->capital_keywords = true;
         return $this->checkForCapitalKeywords($query);
     }
 
     public function getInsertValuesString($values)
     {
+        $wrap_parenthesis = true;
         $values_str = '';
-            foreach ($values as $value) {
-                if(is_integer($value)) {
-                    $values_str .= $value.', ';
-                    continue;
-                }
-                $values_str .= '"'.$value.'", ';
+        foreach ($values as $value) {
+            if(is_array($value)) {
+                $values_str .= $this->getInsertValuesString($value).', ';
+                $wrap_parenthesis = false;
+                continue;
             }
-        return rtrim($values_str, ', ');
+            if(is_integer($value)) {
+                $values_str .= $value.', ';
+                continue;
+            }
+            $values_str .= '"'.$value.'", ';
+        }
+        return  $wrap_parenthesis ? '('. rtrim($values_str, ', ') . ')' : rtrim($values_str, ', ');
     }
 
 }
