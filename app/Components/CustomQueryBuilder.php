@@ -177,6 +177,10 @@ class CustomQueryBuilder
                 $wrap_parenthesis = false;
                 continue;
             }
+            if($value == 'DEFAULT') {
+                $values_str .= $value.', ';
+                continue;
+            }
             if(is_integer($value)) {
                 $values_str .= $value.', ';
                 continue;
