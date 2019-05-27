@@ -45,6 +45,16 @@ class CustomQueryBuilder
         return $this->checkForCapitalKeywords($query);
     }
 
+    public function insert($table, $columns, $values)
+    {
+        $this->setTable($table);
+
+        $query = 'insert into '.$this->table.'("'.implode('", "', $columns).'") values'
+        . $this->getInsertValuesString($values);
+        $this->capital_keywords = true;
+        return $this->checkForCapitalKeywords($query);
+    }
+
     private function setColumns($columns)
     {
         $columns = $columns ?? '*';
@@ -154,17 +164,6 @@ class CustomQueryBuilder
     {
         $columns = explode(' ', $columns);
         return $this->joins = $join.' on '.$table . '.'. $columns[1] .'='.$join.'.'.$columns[0];
-    }
-
-
-    public function insert($table, $columns, $values)
-    {
-        $this->setTable($table);
-
-        $query = 'insert into '.$this->table.'("'.implode('", "', $columns).'") values'
-        . $this->getInsertValuesString($values);
-        $this->capital_keywords = true;
-        return $this->checkForCapitalKeywords($query);
     }
 
     public function getInsertValuesString($values)
