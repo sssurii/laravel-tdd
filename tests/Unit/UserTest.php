@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use App\Product;
 
 class UserTest extends TestCase
 {
@@ -34,10 +35,10 @@ class UserTest extends TestCase
     /**
      * @depends testCreateUserWithFactory
      */
-    public function testCreateUniqueNameUsingDependency($user)
+    public function testCreateProductUsingDependency($user)
     {
-        $user = factory(User::class)->create(['name'=> $user->name, 'password' => 'abc23']);
-        $errors = $user->getErrors();
-        $this->assertArrayHasKey('name', $errors);
+        $product = factory(Product::class)->create(['user_id'=> $user->id]);
+        $this->assertInstanceOf(Product::class, $product);
     }
+
 }
