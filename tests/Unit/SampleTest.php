@@ -39,4 +39,21 @@ class SampleTest extends ParentTestClass
         $this->assertEquals('a', $a);
         $this->assertEquals('b', $b);
     }
+
+    /**
+     * @dataProvider urlDataProvider
+     */
+    public function testURLRegularExpression($url, $regex, $result)
+    {
+        $this->assertEquals($result, preg_match($regex, $url));
+    }
+
+    public function urlDataProvider()
+    {
+        $regex = '/^((https?):\/\/)?(www.)?[a-z0-9-]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/';
+        return [ ['https://regex101.com/r/cO8lqs/5', $regex, true],
+                 ['https://mail.google.com/mail/u/0/#inbox', $regex, true],
+                 ['https://ucreate/about', $regex, false]
+               ];
+    }
 }
