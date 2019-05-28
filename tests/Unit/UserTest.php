@@ -13,6 +13,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->assertInstanceOf(User::class, $user);
+        return $user;
     }
 
     public function testCreateUserWithInvalidEmail()
@@ -28,5 +29,15 @@ class UserTest extends TestCase
         $errors = $user->getErrors();
         $this->assertArrayHasKey('name', $errors);
         $this->assertArrayHasKey('password', $errors);
+    }
+
+    /**
+     * @depends testCreateUserWithFactory
+     */
+    public function testCreateUniqueNameUsingDependency($user)
+    {
+        $user = factory(User::class)->create(['name'=> $user->name, 'password' => 'abc23']);
+        $errors = $user->getErrors();
+        $this->assertArrayHasKey('name', $errors);
     }
 }
