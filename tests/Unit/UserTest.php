@@ -18,7 +18,15 @@ class UserTest extends TestCase
     public function testCreateUserWithInvalidEmail()
     {
         $user = factory(User::class)->create(['email'=>'abc']);
-        $errors = $user->getErrors();
         $this->assertArrayHasKey('email', $user->getErrors());
+    }
+
+    public function testCreateUserWithInvalidNameAndPassword()
+    {
+        $user = factory(User::class)->create(['name'=> 'Sunny', 'password' => 'abc123']);
+        $user = factory(User::class)->create(['name'=> $user->name, 'password' => 'abc23']);
+        $errors = $user->getErrors();
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('password', $errors);
     }
 }

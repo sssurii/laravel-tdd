@@ -40,7 +40,9 @@ class User extends Authenticatable
 
 
     protected static $rules = [
-        'email' => 'email'
+        'name' => 'unique:users',
+        'email' => 'email',
+        'password' => 'min:6|max:8',
     ];
 
     protected $errors;
