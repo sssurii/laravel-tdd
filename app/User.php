@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Validator;
 
 class User extends Authenticatable
 {
@@ -36,4 +37,37 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    protected static $rules = [
+
+    ];
+
+    protected $errors;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            return $model->validate($model->attributes);
+        });
+    }
+
+    public function validate($data)
+    {
+        $validator = Validator::make($data, self::$rules);
+
+        if ($validator->fails()) {
+            $this->errors = $validator->errors;
+            return false;
+        }
+
+        return true;
+    }
+
+    public function errors()
+    {
+        return $this->errors;
+    }
 }
