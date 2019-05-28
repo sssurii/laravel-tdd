@@ -41,4 +41,13 @@ class UserTest extends TestCase
         $this->assertInstanceOf(Product::class, $product);
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidArgument()
+    {
+        $user = factory(User::class)->create(['abc']);
+        $this->assertArrayHasKey('name', $user);
+    }
+
 }
