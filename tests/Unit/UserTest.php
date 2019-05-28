@@ -59,4 +59,11 @@ class UserTest extends TestCase
         $this->assertArrayHasKey('name', $user);
     }
 
+    public function testErrorCounts()
+    {
+        $user = factory(User::class)->create(['email'=> 'abc', 'password' => 'abc23']);
+        $errors = $user->getErrors();
+        $this->assertCount(2, $errors);
+    }
+
 }
