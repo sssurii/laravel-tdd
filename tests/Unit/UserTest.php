@@ -9,14 +9,16 @@ use App\User;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
     public function testCreateUserWithFactory()
     {
         $user = factory(User::class)->create();
         $this->assertInstanceOf(User::class, $user);
+    }
+
+    public function testCreateUserWithInvalidEmail()
+    {
+        $user = factory(User::class)->create(['email'=>'abc']);
+        $errors = $user->getErrors();
+        $this->assertArrayHasKey('email', $user->getErrors());
     }
 }

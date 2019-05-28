@@ -40,7 +40,7 @@ class User extends Authenticatable
 
 
     protected static $rules = [
-
+        'email' => 'email'
     ];
 
     protected $errors;
@@ -59,14 +59,14 @@ class User extends Authenticatable
         $validator = Validator::make($data, self::$rules);
 
         if ($validator->fails()) {
-            $this->errors = $validator->errors;
+            $this->errors = $validator->errors()->toArray();
             return false;
         }
 
         return true;
     }
 
-    public function errors()
+    public function getErrors()
     {
         return $this->errors;
     }
