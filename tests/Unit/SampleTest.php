@@ -56,4 +56,30 @@ class SampleTest extends ParentTestClass
                  ['https://ucreate/about', $regex, false]
                ];
     }
+
+
+    public function testUpperLimit()
+    {
+        $this->assertTrue(true);
+        return 100;
+    }
+
+    /**
+     * @depends testUpperLimit
+     * @dataProvider sumDataProvider
+     */
+    public function testSumUpperLimit($number, $add, $result, $limit)
+    {
+        $output = ($number + $add) < $limit;
+        $this->assertEquals($result, $output);
+    }
+
+    public function sumDataProvider()
+    {
+        return [
+            [3, 24, true],
+            [45, 51, true],
+            [62, 85, false]
+        ];
+    }
 }
