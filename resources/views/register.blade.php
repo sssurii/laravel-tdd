@@ -13,6 +13,16 @@
                 </div>
             @endif
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form class="form-signup form" method="post" action="{{url('/register')}}">
             @csrf
           <h1 class="h3 mb-3 font-weight-normal">Register</h1>

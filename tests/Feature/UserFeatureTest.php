@@ -46,4 +46,16 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(201);
         $response->assertSee('Successful registration');
     }
+
+    public function testRegisterUserWithInvalidEmail()
+    {
+        $user_data = [
+            'name' => $this->faker->name,
+            'email' => str_random(8),
+            'password' => str_random(8),
+        ];
+        $response = $this->post('/register', $user_data);
+        $response->assertStatus(400);
+        $response->assertSee('The email must be a valid email address.');
+    }
 }

@@ -11,14 +11,18 @@ class UserController extends Controller
     protected function register(Request $request)
     {
         $input = $request->all();
-        $saved  = User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => bcrypt($input['password']),
         ]);
 
-        $data = ['success' => true, 'message' => 'Successful registration'];
+        if (!empty($user->getErrors())) {
+            $view = view('register')->withErrors($user->getErrors());
+            return response($view, 400);
+        }
 
+        $data = ['success' => true, 'message' => 'Successful registration'];
         return response()->view('register', $data, 201);
     }
 }
