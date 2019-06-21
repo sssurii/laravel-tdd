@@ -6,6 +6,7 @@ use Tests\ParentTestClass;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Faker\Factory as Faker;
+use App\User;
 
 class UserFeatureTest extends ParentTestClass
 {
@@ -76,5 +77,17 @@ class UserFeatureTest extends ParentTestClass
         $response = $this->get('/login');
         $response->assertStatus(200);
         $response->assertSee('Login here');
+    }
+
+    public function testLogin()
+    {
+        $user = factory(User::class)->create();
+        $user_data = [
+            'email' => $user->email,
+            'password' => $user->password,
+        ];
+        $response = $this->post('/login', $user_data);
+        $response->assertStatus(200);
+        $response->assertSee('Welcome');
     }
 }
