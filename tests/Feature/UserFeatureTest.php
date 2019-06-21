@@ -70,4 +70,11 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(400);
         $response->assertSee('The name field is required.');
     }
+
+    public function testLoginPage()
+    {
+        $response = $this->get('/login');
+        $response->assertStatus(200);
+        $response->assertSee('Login here');
+    }
 }
