@@ -58,4 +58,16 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(400);
         $response->assertSee('The email must be a valid email address.');
     }
+
+    public function testRegisterUserWithInvalidName()
+    {
+        $user_data = [
+            'name' => null,
+            'email' => str_random(8),
+            'password' => str_random(8),
+        ];
+        $response = $this->post('/register', $user_data);
+        $response->assertStatus(400);
+        $response->assertSee('The name field is required.');
+    }
 }
