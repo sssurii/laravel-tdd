@@ -19,4 +19,11 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(200);
         $response->assertSee('Hello Ucreate');
     }
+
+    public function testRegisterFormHeading()
+    {
+        $response = $this->get('/register');
+        $response->assertStatus(200);
+        $response->assertSee('Register');
+    }
 }
