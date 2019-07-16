@@ -102,4 +102,16 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(400);
         $response->assertSee('The email must be a valid email address.');
     }
+
+    public function testLoginWithEmptyPassword()
+    {
+        $user = factory(User::class)->create();
+        $user_data = [
+            'email' => $user->email,
+            'password' => null,
+        ];
+        $response = $this->post('/login', $user_data);
+        $response->assertStatus(400);
+        $response->assertSee('The password field is required.');
+    }
 }
