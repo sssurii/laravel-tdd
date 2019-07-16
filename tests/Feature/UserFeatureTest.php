@@ -90,4 +90,16 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(200);
         $response->assertSee('Welcome');
     }
+
+    public function testLoginWithInvalidEmail()
+    {
+        $user = factory(User::class)->create();
+        $user_data = [
+            'email' => str_random(8),
+            'password' => $user->password,
+        ];
+        $response = $this->post('/login', $user_data);
+        $response->assertStatus(400);
+        $response->assertSee('The email must be a valid email address.');
+    }
 }
