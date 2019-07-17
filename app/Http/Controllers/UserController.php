@@ -55,4 +55,13 @@ class UserController extends Controller
         $data = ['success' => true, 'message' => 'Welcome'];
         return response()->view('login', $data, 200);
     }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect('/login');
+    }
 }

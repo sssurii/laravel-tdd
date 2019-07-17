@@ -26,3 +26,5 @@ Route::get('/login', function () {
 Route::post('/register', 'UserController@register');
 
 Route::post('/login', 'UserController@login');
+
+Route::post('/logout', 'UserController@logout');

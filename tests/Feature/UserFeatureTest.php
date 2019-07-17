@@ -126,4 +126,19 @@ class UserFeatureTest extends ParentTestClass
         $response->assertStatus(302);
         $response->assertRedirect('/login');
     }
+
+    public function testAuthorizedUserLogout()
+    {
+        $user = factory(User::class)->create(['password' => bcrypt('test123')]);
+        $user_data = [
+            'email' => $user->email,
+            'password' => 'test123',
+        ];
+        $response = $this->post('/login', $user_data);
+        $response->assertStatus(200);
+
+        $response = $this->post('/logout', $user_data);
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
 }
