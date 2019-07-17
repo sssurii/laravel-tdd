@@ -87,8 +87,8 @@ class UserFeatureTest extends ParentTestClass
             'password' => 'test123',
         ];
         $response = $this->post('/login', $user_data);
-        $response->assertStatus(200);
-        $response->assertSee('Welcome');
+        $response->assertStatus(302);
+        $response->assertSee('welcome');
     }
 
     public function testLoginWithInvalidEmail()
@@ -135,7 +135,7 @@ class UserFeatureTest extends ParentTestClass
             'password' => 'test123',
         ];
         $response = $this->post('/login', $user_data);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
 
         $response = $this->post('/logout', $user_data);
         $response->assertStatus(302);
