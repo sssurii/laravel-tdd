@@ -68,7 +68,8 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/') }}">Home</a>
+                        <a href="{{ url('/logout') }}">Logout</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -80,14 +81,14 @@
             @endif
 
             <div class="content">
-                @if(isset($message))
-                    @if(isset($success) && $success)
+                @if(session('message'))
+                    @if(session('success'))
                         <div class="alert alert-success" role="alert">
-                          {{$message}}
+                          {{session('message')}}
                         </div>
                     @else
                         <div class="alert alert-danger" role="alert">
-                          {{$message}}
+                          {{session('message')}}
                         </div>
                     @endif
                 @endif

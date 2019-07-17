@@ -35,6 +35,9 @@
 
           <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
         </form>
+        @if (Route::has('login'))
+            <a href="{{ route('login') }}">Login</a>
+        @endif
     </div>
 </div>
 @endsection

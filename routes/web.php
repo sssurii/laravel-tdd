@@ -17,11 +17,11 @@ Route::get('/', function () {
 
 Route::get('/register', function () {
     return view('register');
-});
+})->name('register');
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -31,4 +31,4 @@ Route::post('/register', 'UserController@register');
 
 Route::post('/login', 'UserController@login');
 
-Route::any('/logout', 'UserController@logout');
+Route::any('/logout', 'UserController@logout')->name('logout');
