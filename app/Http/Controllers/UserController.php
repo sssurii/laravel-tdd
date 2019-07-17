@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class UserController extends Controller
 {
+
+    use AuthenticatesUsers;
+
+    protected $redirectTo = '/login';
 
     protected function register(Request $request)
     {
@@ -35,9 +40,16 @@ class UserController extends Controller
             'password' => 'required|min:6'
         ];
         $validator = Validator::make($input, $rules);
+
         if ($validator->fails()) {
             $view = view('login')->withErrors($validator->errors());
             return response($view, 400);
+        }
+
+        if (!$this->attemptLogin($request)) {
+            return redirect()->intended($this->redirectPath())->withErrors([
+                $this->username() => [trans('auth.failed')],
+            ]);
         }
 
         $data = ['success' => true, 'message' => 'Welcome'];

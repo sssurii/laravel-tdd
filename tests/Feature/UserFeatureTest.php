@@ -81,10 +81,10 @@ class UserFeatureTest extends ParentTestClass
 
     public function testLogin()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create(['password' => bcrypt('test123')]);
         $user_data = [
             'email' => $user->email,
-            'password' => $user->password,
+            'password' => 'test123',
         ];
         $response = $this->post('/login', $user_data);
         $response->assertStatus(200);
@@ -113,5 +113,17 @@ class UserFeatureTest extends ParentTestClass
         $response = $this->post('/login', $user_data);
         $response->assertStatus(400);
         $response->assertSee('The password field is required.');
+    }
+
+    public function testUnauthorizedRedirect()
+    {
+        $user = factory(User::class)->create();
+        $user_data = [
+            'email' => $user->email,
+            'password' => str_random(8),
+        ];
+        $response = $this->post('/login', $user_data);
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
     }
 }
