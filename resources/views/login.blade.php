@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 <div class="row">
-    <div class="md-col-6 offset-md-4">
+    <div class="md-col-6 offset-md-6">
         @if(isset($message))
             @if(isset($success) && $success)
                 <div class="alert alert-success" role="alert">

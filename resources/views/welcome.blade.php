@@ -80,8 +80,19 @@
             @endif
 
             <div class="content">
+                @if(isset($message))
+                    @if(isset($success) && $success)
+                        <div class="alert alert-success" role="alert">
+                          {{$message}}
+                        </div>
+                    @else
+                        <div class="alert alert-danger" role="alert">
+                          {{$message}}
+                        </div>
+                    @endif
+                @endif
                 <div class="title m-b-md">
-                    Hello Ucreate!
+                    Welcome Ucreate!
                 </div>
 
                 <div class="links">
