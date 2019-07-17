@@ -50,9 +50,6 @@ class UserTest extends TestCase
         $this->assertArrayHasKey('name', $user);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testExpectedExceptionWithoutExceptionThrow()
     {
         $user = factory(User::class)->create();
@@ -65,5 +62,4 @@ class UserTest extends TestCase
         $errors = $user->getErrors();
         $this->assertCount(2, $errors);
     }
-
 }
