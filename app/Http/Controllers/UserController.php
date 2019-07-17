@@ -47,13 +47,12 @@ class UserController extends Controller
         }
 
         if (!$this->attemptLogin($request)) {
-            return redirect()->intended($this->redirectPath())->withErrors([
+            return redirect($this->redirectPath())->withErrors([
                 $this->username() => [trans('auth.failed')],
             ]);
         }
-
-        $data = ['success' => true, 'message' => 'Welcome'];
-        return response()->view('login', $data, 200);
+        $request->session()->regenerate();
+        return redirect('/welcome')->with(['success' => true, 'message' => 'Welcome']);
     }
 
     public function logout(Request $request)

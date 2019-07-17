@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/register', function () {
@@ -23,8 +23,12 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
 Route::post('/register', 'UserController@register');
 
 Route::post('/login', 'UserController@login');
 
-Route::post('/logout', 'UserController@logout');
+Route::any('/logout', 'UserController@logout');
