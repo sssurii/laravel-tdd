@@ -34,6 +34,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        \Log::error(
+                $exception, [
+                    'person' => null,
+                ]
+            );
+
         parent::report($exception);
     }
 
