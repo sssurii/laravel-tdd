@@ -1,0 +1,15 @@
+{
+    "name": "insan/ics",
+    "description": "BPackage to generate ics files, email invitation.",
+    "type": "library, plugin, package",
+    "require": {
+        "predis/predis": "^2.0@dev"
+    },
+    "authors": [
+        {
+            "name": "Surinder Singh",
+            "email": "sssurii.dev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
