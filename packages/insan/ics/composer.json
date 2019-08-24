@@ -2,14 +2,26 @@
     "name": "insan/ics",
     "description": "BPackage to generate ics files, email invitation.",
     "type": "library, plugin, package",
-    "require": {
-        "predis/predis": "^2.0@dev"
-    },
     "authors": [
         {
             "name": "Surinder Singh",
             "email": "sssurii.dev@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require": {
+        "predis/predis": "^2.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "INSAN\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "INSAN\\ICS\\ICSServiceProvider"
+            ]
+        }
+    }
 }
