@@ -34,7 +34,7 @@ class ICS
         'BEGIN:VEVENT',
     ];
 
-    public function __construct($properties)
+    public function __construct($properties = [])
     {
         $this->set($properties, false);
     }
