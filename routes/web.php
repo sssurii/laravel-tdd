@@ -27,6 +27,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+Route::get('/callback', function () {
+    return 'callback';
+});
+
 Route::post('/register', 'UserController@register');
 
 Route::post('/login', 'UserController@login');
